@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linear Interpolation Search</title>
+    <script>
+        function linearInterpolationSearch() {
+            var arrInput = document.getElementById('arrInput');
+            var targetInput = document.getElementById('targetInput');
+
+            var arrString = arrInput.value;
+            var target = parseInt(targetInput.value);
+
+            var arr = arrString ? arrString.split(',').map(Number) : null;
+
+            // Отправляем массив и число поиска на сервер для выполнения алгоритма
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ arr: arr, target: target })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Отображаем результат на странице
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = data.index;
+            })
+            .catch(error => console.log(error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Linear Interpolation Search</h1>
+    <p>Введите массив чисел через запятую:</p>
+    <input type="text" id="arrInput" value="">
+    <p>Введите число для поиска:</p>
+    <input type="text" id="targetInput">
+    <br><br>
+    <button onclick="linearInterpolationSearch()">Найти</button>
+    <br><br>
+    <div id="result"></div>
+</body>
+</html>
